@@ -22,10 +22,12 @@ function makePac() {
   newimg.width = 100;
 
   // TODO: set position here
+  newimg.style.left = position.x + "px";
+  newimg.style.top = position.y + "px";
 
 
   // TODO add new Child image to game
-  game.appendChild(/* TODO: add parameter */);
+  game.appendChild(newimg);
 
   // return details in an object
   return {
@@ -42,15 +44,24 @@ function update() {
     item.position.x += item.velocity.x;
     item.position.y += item.velocity.y;
 
-    item.newimg.style.left = item.position.x;
-    item.newimg.style.top = item.position.y;
+    item.newimg.style.left = item.position.x + "px";
+    item.newimg.style.top = item.position.y + "px";
   });
   setTimeout(update, 20);
 }
 
 function checkCollisions(item) {
-  // TODO: detect collision with all walls and make pacman bounce
-  
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+  const imgWidth = item.newimg.width;
+  const imgHeight = item.newimg.height;
+
+  if (item.position.x + imgWidth >= windowWidth || item.position.x <= 0) {
+    item.velocity.x = -item.velocity.x;
+  }
+  if (item.position.y + imgHeight >= windowHeight || item.position.y <= 0) {
+    item.velocity.y = -item.velocity.y;
+  }
 }
 
 function makeOne() {
@@ -61,3 +72,6 @@ function makeOne() {
 if (typeof module !== 'undefined') {
   module.exports = { checkCollisions, update, pacMen };
 }
+
+window.makeOne = makeOne;
+window.update = update;
